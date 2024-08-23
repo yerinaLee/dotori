@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>WELCOME</title>
+    <style>
+        #main hr.style-two{
+            border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.15), rgba(0,0,0,0));
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info{
+            margin-left: 100px;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,11 +25,19 @@
         <li><b>account</b></li>
     </ul>
 
-    <h1 class="title">본인인증 copycat</h1>
+    <h1 class="title">본인인증 module</h1>
     <hr class="style-two">
-    <form class="info form-horizon h-adr">
+    <form class="info form-horizon h-adr" id="authRequestFrm">
+        <input type="hidden" name="client_id" value="pay_test">
+        <input type="hidden" name="user_id" value="본인인증 테스트">
+        <input type="hidden" name="custom_parameter" value="원투쓰리">
+        <input type="hidden" name="title" value="YALOOOOOOO">
+        <input type="hidden" name="return_url" value="http://127.0.0.1/web/test/auth/success">
+        <input type="hidden" name="cancel_url" value="http://127.0.0.1/web/test/auth/cancel">
+        <input type="hidden" name="site_url" value="http://127.0.0.1">
+        <input type="hidden" name="site_name" value="YALOOOOOOO">
         <div class="" style="text-align: center; margin-bottom: 100px">
-            <a href="" onclick="javascript:payAuth();" class="btn btn-default">인증 요청</a>
+            <a href="#" onclick="javascript:authModule();" class="btn btn-default">인증 요청</a>
         </div>
     </form>
 
@@ -24,21 +45,41 @@
 
 </section>
 
+<script>
+
+    function authModule(){
+        const getData = $("#authRequestFrm").serializeArray();
+        $.ajax({
+            url : "/web/test/auth/request.json",
+            data : getData,
+            method : "get",
+            success : function (data){
+                console.log(data.apiResult);
+                const getResult = data.apiResult;
+                if(getResult && getResult.mobile_url){
+                    screenWindowPopup(getResult.mobile_url, 'payletterAuth', '200', '200');
+                }
+            },
+            error : function (error){
+                alert("본인인증 에러");
+            }
+        });
+    }
+
+    function screenWindowPopup(url, name, width, height){
+        const popupWidth = width;
+        const popupHeight = height;
+
+        const popupX = Math.round(window.screenX + (window.outerWidth / 2) - (popupWidth / 2) - width);
+        const popupY = Math.round(window.screenY + (window.outerHeight / 2) - (popupHeight / 2) - height);
+
+        const featureWindow = "width=" + popupWidth + ", height=" + popupHeight + ", left=" + popupX + ", top=" + popupY;
+
+        return window.open(url, name, featureWindow);
+    }
 
 
 
-<div>
-    <h1>결제 Test</h1>
-    <button>이동</button>
-</div>
-
-<div>
-    <h1>소셜로그인 Test</h1>
-    <button>이동</button>
-</div>
-
-
-
-
+</script>
 </body>
 </html>

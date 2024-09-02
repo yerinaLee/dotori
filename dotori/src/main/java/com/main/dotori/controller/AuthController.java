@@ -14,6 +14,7 @@ import java.util.Objects;
 @Controller
 public class AuthController extends Auth{
 
+    /** 본인인증 api 연동 _ 1차 검증 **/
     @Override
     public String authRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception{
 
@@ -28,6 +29,7 @@ public class AuthController extends Auth{
 
         return "index";
     }
+
 
 
 }

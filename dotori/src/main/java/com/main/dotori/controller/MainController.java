@@ -10,4 +10,10 @@ public class MainController {
     public String mainPage(){
         return "index";
     }
+
+    @RequestMapping("/web/test/site/mysite")
+    public String getSitePage(){
+        return "site";
+    }
+
 }
